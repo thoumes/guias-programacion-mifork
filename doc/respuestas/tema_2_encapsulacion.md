@@ -1,25 +1,26 @@
-1. Encapsulación y ocultación de información
-La encapsulación es el mecanismo que agrupa datos y comportamientos (métodos) en una sola unidad o contenedor, es decir, la clase. Por otro lado, la ocultación de información es la capacidad de restringir el acceso a ciertos componentes de ese objeto, de modo que los detalles internos de su implementación no sean visibles ni modificables directamente desde el exterior.
+#1. Encapsulación y ocultación de información
+##La encapsulación es el mecanismo que agrupa datos y comportamientos (métodos) en una sola unidad o contenedor, es decir, la clase. Por otro lado, la ocultación de información es la capacidad de restringir el acceso a ciertos componentes de ese objeto, de modo que los detalles internos de su implementación no sean visibles ni modificables directamente desde el exterior.
 
 Entre las ventajas de la ocultación se encuentran la facilidad de mantenimiento, ya que se puede cambiar la implementación interna sin afectar a quienes usan la clase; la protección contra errores, al evitar que se asignen valores inválidos a los datos; y la reducción de la complejidad, puesto que el usuario solo necesita conocer qué hace el objeto y no cómo lo hace por dentro.
 
-2. Interfaz pública
-La interfaz pública de una clase es el conjunto de métodos y constantes que se ponen a disposición de otros objetos para interactuar con ella. En términos prácticos, es el "contrato" que la clase firma con el exterior, especificando qué servicios ofrece. En Java, se define principalmente mediante los miembros marcados con el modificador public.
+#2. Interfaz pública
+##La interfaz pública de una clase es el conjunto de métodos y constantes que se ponen a disposición de otros objetos para interactuar con ella. En términos prácticos, es el "contrato" que la clase firma con el exterior, especificando qué servicios ofrece. En Java, se define principalmente mediante los miembros marcados con el modificador public.
 
 La relación con la ocultación es directa: la interfaz pública actúa como un filtro o frontera. Mientras que la ocultación mantiene los detalles escabrosos y los datos sensibles en el ámbito privado, la interfaz pública expone solo lo estrictamente necesario para que el objeto sea funcional y útil para los demás.
 
-3. Diseño de la interfaz pública
-Se debe diseñar la interfaz pública con extremo cuidado porque, una vez que otros programadores o módulos empiezan a usarla, cualquier cambio en ella (como cambiar el nombre de un método o sus parámetros) romperá todo el código que dependa de esa clase. Es mucho más difícil de cambiar que la implementación interna, la cual puede alterarse libremente siempre que el resultado final sea el mismo.
+#3. Diseño de la interfaz pública
+##Se debe diseñar la interfaz pública con extremo cuidado porque, una vez que otros programadores o módulos empiezan a usarla, cualquier cambio en ella (como cambiar el nombre de un método o sus parámetros) romperá todo el código que dependa de esa clase. Es mucho más difícil de cambiar que la implementación interna, la cual puede alterarse libremente siempre que el resultado final sea el mismo.
 
 Una buena interfaz pública debe ser mínima y completa: debe ofrecer todo lo necesario para usar la clase, pero nada más. Si se exponen demasiados detalles, se pierde flexibilidad futura, ya que se está "atado" a mantener elementos que quizás más adelante se prefiera ocultar o modificar.
 
-4. Invariantes de clase
-Las invariantes de clase son condiciones o reglas que deben cumplirse siempre para que un objeto se considere en un "estado válido". Por ejemplo, en una clase Fecha, una invariante sería que el mes siempre esté entre 1 y 12. Si los atributos fueran públicos (como en un struct de C convencional), cualquier parte del programa podría romper estas reglas accidentalmente.
+#4. Invariantes de clase
+##Las invariantes de clase son condiciones o reglas que deben cumplirse siempre para que un objeto se considere en un "estado válido". Por ejemplo, en una clase Fecha, una invariante sería que el mes siempre esté entre 1 y 12. Si los atributos fueran públicos (como en un struct de C convencional), cualquier parte del programa podría romper estas reglas accidentalmente.
 
 La ocultación de información ayuda a preservar estas invariantes al obligar a que cualquier modificación de los datos pase por métodos controlados (como los constructores o setters). Dentro de estos métodos, se puede validar la información antes de actualizar el estado interno, garantizando que el objeto nunca sea inconsistente.
 
-5. Ejemplo de clase Punto con ocultación
-En el siguiente ejemplo, los atributos son privados y la interacción se realiza mediante métodos públicos.
+#5. Ejemplo de clase Punto con ocultación
+##En el siguiente ejemplo, los atributos son privados y la interacción se realiza mediante métodos públicos.
+
 public class Punto {
     private double x;
     private double y;
@@ -35,18 +36,18 @@ public class Punto {
 }
 La interfaz pública de esta clase está compuesta por el constructor Punto(double, double) y el método calcularDistanciaAOrigen(). El modificador private impide el acceso desde fuera de la clase, mientras que public permite el acceso desde cualquier otra parte del programa.
 
-6. Aplicación de public y private
-En Java, los modificadores public y private se pueden aplicar a los miembros de la clase, que incluyen atributos (variables de instancia o de clase), métodos y constructores. También se pueden aplicar a las clases de primer nivel, aunque con ciertas reglas: una clase solo puede ser public o tener visibilidad de paquete (sin modificador).
+#6. Aplicación de public y private
+##En Java, los modificadores public y private se pueden aplicar a los miembros de la clase, que incluyen atributos (variables de instancia o de clase), métodos y constructores. También se pueden aplicar a las clases de primer nivel, aunque con ciertas reglas: una clase solo puede ser public o tener visibilidad de paquete (sin modificador).
 
 No es posible aplicar estos modificadores a las variables locales (las que se declaran dentro de un método), ya que su ámbito está limitado intrínsecamente a la ejecución de dicho bloque de código y no forman parte de la estructura de visibilidad de la clase.
 
-7. Otros tipos de visibilidad
-Además de public y private, Java ofrece el nivel de acceso por defecto (o package-private), que se aplica cuando no se escribe ningún modificador y permite el acceso solo a clases dentro del mismo paquete. También existe protected, que permite el acceso a clases del mismo paquete y a subclases (herencia), incluso si están en paquetes distintos.
+#7. Otros tipos de visibilidad
+##Además de public y private, Java ofrece el nivel de acceso por defecto (o package-private), que se aplica cuando no se escribe ningún modificador y permite el acceso solo a clases dentro del mismo paquete. También existe protected, que permite el acceso a clases del mismo paquete y a subclases (herencia), incluso si están en paquetes distintos.
 
 En otros lenguajes como C++, existen conceptos similares, aunque la forma de declararlos varía (se suelen agrupar por bloques public: o private:). Otros lenguajes como Python no tienen una restricción real de acceso, sino que emplean convenciones (como el uso de guiones bajos _) para indicar que un miembro debería tratarse como privado.
 
-8. Privacidad entre instancias
-Los miembros privados de un objeto están ocultos para (a) otras clases, pero no para otras instancias de la misma clase. En Java, un objeto de la clase Punto puede acceder a los atributos privados de otro objeto de la clase Punto. Esto es fundamental para operaciones que involucran a dos entidades del mismo tipo.
+#8. Privacidad entre instancias
+##Los miembros privados de un objeto están ocultos para (a) otras clases, pero no para otras instancias de la misma clase. En Java, un objeto de la clase Punto puede acceder a los atributos privados de otro objeto de la clase Punto. Esto es fundamental para operaciones que involucran a dos entidades del mismo tipo.
 public double calcularDistanciaAPunto(Punto otro) {
     // Es legal acceder a 'otro.x' aunque sea privado porque estamos dentro de la clase Punto
     double dx = this.x - otro.x;
