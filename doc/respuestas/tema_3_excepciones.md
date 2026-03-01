@@ -1,5 +1,3 @@
-Aquí tienes las respuestas desarrolladas para tu cuestionario sobre excepciones, adaptadas a tu experiencia previa en C y tus conocimientos actuales de Java (Clases, Objetos y Encapsulación), manteniendo un tono impersonal y la extensión solicitada.
-
 1. Control de errores en C
 En el lenguaje C, al carecer de un mecanismo de excepciones, el control de errores debe realizarse mediante el flujo normal del programa. La función raiz no puede detener la ejecución por sí sola, por lo que debe comunicarse con el llamador a través de valores de retorno o parámetros externos.
 
