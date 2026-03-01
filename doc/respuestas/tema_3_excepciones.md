@@ -1,5 +1,5 @@
-1. Control de errores en C
-En el lenguaje C, al carecer de un mecanismo de excepciones, el control de errores debe realizarse mediante el flujo normal del programa. La función raiz no puede detener la ejecución por sí sola, por lo que debe comunicarse con el llamador a través de valores de retorno o parámetros externos.
+# 1. Control de errores en C
+## En el lenguaje C, al carecer de un mecanismo de excepciones, el control de errores debe realizarse mediante el flujo normal del programa. La función raiz no puede detener la ejecución por sí sola, por lo que debe comunicarse con el llamador a través de valores de retorno o parámetros externos.
 
 La primera opción consiste en utilizar un valor de retorno especial que indique un estado de error. Dado que una raíz cuadrada real nunca es negativa, se puede devolver un valor centinela como -1.0 o la constante NAN (Not a Number) de la librería math.h. El programa que llama a la función tiene la responsabilidad de verificar si el resultado es ese valor especial antes de continuar con el cálculo.
 
