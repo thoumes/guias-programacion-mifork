@@ -53,24 +53,24 @@ La sobrecarga de métodos ocurre cuando una clase tiene dos o más métodos con 
 
 ## 8. Ejemplo mínimo de clase en Java, que se llame Punto, con dos atributos, x e y, con un método que se llame `calculaDistanciaAOrigen`, que calcule la distancia a la posición 0,0. Por sencillez, los atributos deben tener visibilidad por defecto. Crea además un ejemplo de uso con una instancia y uso del método
 
-### public class Punto {
-    double x; // Visibilidad por defecto
-    double y;
+    public class Punto {
+        double x; // Visibilidad por defecto
+        double y;
 
-    double calculaDistanciaAOrigen() {
-        return Math.sqrt(x * x + y * y);
+        double calculaDistanciaAOrigen() {
+            return Math.sqrt(x * x + y * y);
+        }
     }
-}
 
-// Ejemplo de uso
-public class Principal {
-    public static void main(String[] args) {
-        Punto p = new Punto();
-        p.x = 3.0;
-        p.y = 4.0;
-        System.out.println("Distancia: " + p.calculaDistanciaAOrigen());
+    // Ejemplo de uso
+    public class Principal {
+        public static void main(String[] args) {
+            Punto p = new Punto();
+            p.x = 3.0;
+            p.y = 4.0;
+            System.out.println("Distancia: " + p.calculaDistanciaAOrigen());
+        }
     }
-}
 
 
 ## 9. ¿Cuál es el punto de entrada en un programa en Java? ¿Qué es `static` y para qué vale? ¿Sólo se emplea para ese método `main`? ¿Para qué se combina con `final`?
