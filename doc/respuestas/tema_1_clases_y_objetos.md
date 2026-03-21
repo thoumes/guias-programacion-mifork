@@ -91,15 +91,15 @@ Para ejecutarlo se usa el comando java, que arranca la JVM y esta interpreta o t
 
 ### La palabra clave new se encarga de reservar memoria en el Heap para un nuevo objeto y devolver su referencia. Un constructor es un método especial que se invoca automáticamente al usar new; su función es inicializar el estado del objeto y no tiene tipo de retorno.
 
-public class Empleado {
-    String dni, nombre, apellidos;
+    public class Empleado {
+        String dni, nombre, apellidos;
 
-    public Empleado(String dni, String nombre, String apellidos) {
-        this.dni = dni;
-        this.nombre = nombre;
-        this.apellidos = apellidos;
+        public Empleado(String dni, String nombre, String apellidos) {
+            this.dni = dni;
+            this.nombre = nombre;
+            this.apellidos = apellidos;
+        }
     }
-}
 
 ## 12. ¿Qué es la referencia `this`? ¿Se llama igual en todos los lenguajes? Pon un ejemplo del uso de `this` en la clase `Punto`
 
@@ -110,11 +110,11 @@ En otros lenguajes puede variar: en Python se llama explícitamente self, y en C
 
 ## 13. Añade ahora otro nuevo método que se llame `distanciaA`, que reciba un `Punto` como parámetro y calcule la distancia entre `this` y el punto proporcionado
 
-### double distanciaA(Punto otro) {
-    double dx = this.x - otro.x;
-    double dy = this.y - otro.y;
-    return Math.sqrt(dx * dx + dy * dy);
-}
+    double distanciaA(Punto otro) {
+        double dx = this.x - otro.x;
+        double dy = this.y - otro.y;
+        return Math.sqrt(dx * dx + dy * dy);
+    }
 
 
 ## 14. El paso del `Punto` como parámetro a un método, es **por copia** o **por referencia**, es decir, si se cambia el valor de algún atributo del punto pasado como parámetro, dichos cambios afectan al objeto fuera del método? ¿Qué ocurre si en vez de un `Punto`, se recibiese un entero (`int`) y dicho entero se modificase dentro de la función? 
@@ -128,10 +128,9 @@ Si se pasa un tipo primitivo como un int, se crea una copia local del valor. Cua
 
 ### El método toString() devuelve una representación en cadena de texto de un objeto. Existe en casi todos los lenguajes modernos (como __str__ en Python). En Java, todos los objetos lo heredan, pero es recomendable sobrescribirlo para mostrar información útil.
 
-Java
-public String toString() {
-    return "Punto(x=" + x + ", y=" + y + ")";
-}
+    public String toString() {
+        return "Punto(x=" + x + ", y=" + y + ")";
+    }
 
 
 ## 16. Reflexiona: ¿una clase es como un `struct` en C? ¿Qué le falta al `struct` para ser como una clase y las variables de ese tipo ser instancias?
@@ -146,12 +145,11 @@ Para que un struct fuera una clase, debería permitir incluir funciones dentro d
 
 ### Para emular una clase en C, se definen funciones que reciben un puntero a la estructura como primer argumento. Este puntero manual es el equivalente funcional de this.
 
-C
-struct Punto {
-    double x, y;
-};
+    struct Punto {
+        double x, y;
+    };
 
-double calculaDistanciaAOrigen(struct Punto *p) {
-    return sqrt(p->x * p->x + p->y * p->y);
-}
+    double calculaDistanciaAOrigen(struct Punto *p) {
+        return sqrt(p->x * p->x + p->y * p->y);
+    }
 Al llamar a la función, se debe pasar explícitamente la dirección de la estructura (calculaDistanciaAOrigen(&miPunto)). En la POO, este proceso ocurre de forma implícita y transparente para el programador.
