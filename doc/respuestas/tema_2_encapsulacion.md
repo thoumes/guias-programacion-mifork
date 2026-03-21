@@ -22,19 +22,20 @@ La ocultación de información ayuda a preservar estas invariantes al obligar a 
 ## 5. Ejemplo de clase Punto con ocultación
 ### En el siguiente ejemplo, los atributos son privados y la interacción se realiza mediante métodos públicos.
 
-### public class Punto {
-    private double x;
-    private double y;
+    public class Punto {
+        private double x;
+        private double y;
 
-    public Punto(double x, double y) {
-        this.x = x;
-        this.y = y;
-    }
+        public Punto(double x, double y) {
+            this.x = x;
+            this.y = y;
+        }
 
-    public double calcularDistanciaAOrigen() {
-        return Math.sqrt(x * x + y * y);
+        public double calcularDistanciaAOrigen() {
+            return Math.sqrt(x * x + y * y);
+        }
     }
-}
+    
 La interfaz pública de esta clase está compuesta por el constructor Punto(double, double) y el método calcularDistanciaAOrigen(). El modificador private impide el acceso desde fuera de la clase, mientras que public permite el acceso desde cualquier otra parte del programa.
 
 ## 6. Aplicación de public y private
@@ -49,13 +50,14 @@ En otros lenguajes como C++, existen conceptos similares, aunque la forma de dec
 
 ## 8. Privacidad entre instancias
 ### Los miembros privados de un objeto están ocultos para (a) otras clases, pero no para otras instancias de la misma clase. En Java, un objeto de la clase Punto puede acceder a los atributos privados de otro objeto de la clase Punto. Esto es fundamental para operaciones que involucran a dos entidades del mismo tipo.
-### public double calcularDistanciaAPunto(Punto otro) {
-    // Es legal acceder a 'otro.x' aunque sea privado porque estamos dentro de la clase Punto
-    double dx = this.x - otro.x;
-    double dy = this.y - otro.y;
-    return Math.sqrt(dx * dx + dy * dy);
-}
+    public double calcularDistanciaAPunto(Punto otro) {
+        // Es legal acceder a 'otro.x' aunque sea privado porque estamos dentro de la clase Punto
+        double dx = this.x - otro.x;
+        double dy = this.y - otro.y;
+        return Math.sqrt(dx * dx + dy * dy);
+    }
 Esta característica permite que los objetos de la misma clase colaboren de manera eficiente sin necesidad de exponer sus datos al resto del mundo.
+
 ## 9. Métodos Getter y Setter
 ### Los getters y setters (también llamados métodos de acceso y de modificación) son métodos públicos diseñados para leer o actualizar el valor de un atributo privado. El getter suele tener el formato getNombreAtributo() y devuelve el valor, mientras que el setter suele ser setNombreAtributo(valor) y lo asigna.
 
@@ -78,42 +80,44 @@ También se emplean constructores privados para obligar a los usuarios a utiliza
 
 ## 13. Miembros de clase en Java
 ### En Java se utiliza la palabra clave static para indicar que un miembro pertenece a la clase.
-### public class Punto {
-    private double x, y;
-    private static double xMax = 0;
-    private static double yMax = 0;
+    public class Punto {
+        private double x, y;
+        private static double xMax = 0;
+        private static double yMax = 0;
 
-    public Punto(double x, double y) {
-        this.x = x;
-        this.y = y;
-        if (x > xMax) xMax = x;
-        if (y > yMax) yMax = y;
+        public Punto(double x, double y) {
+            this.x = x;
+            this.y = y;
+            if (x > xMax) xMax = x;
+            if (y > yMax) yMax = y;
+        }
     }
-}
+    
 En este ejemplo, xMax y yMax son compartidos por todos los puntos. Si se crean mil instancias de Punto, solo existirá una variable xMax en memoria que mantendrá el valor más alto registrado hasta el momento.
 
 ## 14. Método factoría
 ### Un método factoría es un método estático que encapsula la creación de un objeto.
-### public static Punto crearPuntoRedondeado(double x, double y) {
-    return new Punto(Math.round(x), Math.round(y));
-}
+    public static Punto crearPuntoRedondeado(double x, double y) {
+        return new Punto(Math.round(x), Math.round(y));
+    }
+
 Se utiliza static porque el método debe poder llamarse antes de que exista el objeto Punto que se va a crear. Se invoca como Punto.crearPuntoRedondeado(2.8, 4.1).
 
 ## 15. Cambio de implementación interna
 ### Gracias a la encapsulación, se puede cambiar el almacenamiento interno sin que el usuario de la clase lo note.
-### public class Punto {
-    private double[] coords = new double[2]; // Cambio interno
+    public class Punto {
+        private double[] coords = new double[2]; // Cambio interno
 
-    public Punto(double x, double y) {
-        this.coords[0] = x;
-        this.coords[1] = y;
-    }
+        public Punto(double x, double y) {
+            this.coords[0] = x;
+            this.coords[1] = y;
+        }
 
-    public double calcularDistanciaAOrigen() {
-        return Math.sqrt(coords[0] * coords[0] + coords[1] * coords[1]);
+        public double calcularDistanciaAOrigen() {
+            return Math.sqrt(coords[0] * coords[0] + coords[1] * coords[1]);
+        }
+        // El resto del programa no necesita saber que 'x' e 'y' ya no existen como variables independientes
     }
-    // El resto del programa no necesita saber que 'x' e 'y' ya no existen como variables independientes
-}
 
 ## 16. Atributos públicos vs. privados
 ### Aunque un atributo tenga getter y setter, es preferible mantenerlo privado. Declararlo público elimina la posibilidad de añadir lógica de validación futura o de cambiar la representación interna (como se vio en la pregunta anterior) sin romper el código ajeno.
@@ -151,26 +155,26 @@ Java realiza este proceso automáticamente mediante el autoboxing y unboxing. La
 En términos de encapsulación, los enum de Java son excelentes porque garantizan que solo existan las instancias definidas en la propia clase, impidiendo que el usuario cree valores inválidos. Además, permiten asociar lógica directamente a las constantes, evitando largas estructuras switch repartidas por el código.
 
 ## 23. Ejemplo de Enumerado Mes en Java
-### public enum Mes {
-    ENERO(31, 1), FEBRERO(28, 2), MARZO(31, 3), ABRIL(30, 4),
-    MAYO(31, 5), JUNIO(30, 6), JULIO(31, 7), AGOSTO(31, 8),
-    SEPTIEMBRE(30, 9), OCTUBRE(31, 10), NOVIEMBRE(30, 11), DICIEMBRE(31, 12);
+    public enum Mes {
+        ENERO(31, 1), FEBRERO(28, 2), MARZO(31, 3), ABRIL(30, 4),
+        MAYO(31, 5), JUNIO(30, 6), JULIO(31, 7), AGOSTO(31, 8),
+        SEPTIEMBRE(30, 9), OCTUBRE(31, 10), NOVIEMBRE(30, 11), DICIEMBRE(31, 12);
 
-    private final int dias;
-    private final int ordinal;
+        private final int dias;
+        private final int ordinal;
 
-    private Mes(int dias, int ordinal) {
-        this.dias = dias;
-        this.ordinal = ordinal;
-    }
+        private Mes(int dias, int ordinal) {
+            this.dias = dias;
+            this.ordinal = ordinal;
+        }
 
-    public int getDias() { return dias; }
-    public int getOrdinal() { return ordinal; }
+        public int getDias() { return dias; }
+        public int getOrdinal() { return ordinal; }
 
-    public boolean esDePrimavera(boolean norte) {
-        if (norte) return this == MARZO || this == ABRIL || this == MAYO;
-        return this == SEPTIEMBRE || this == OCTUBRE || this == NOVIEMBRE;
-    }
+        public boolean esDePrimavera(boolean norte) {
+            if (norte) return this == MARZO || this == ABRIL || this == MAYO;
+            return this == SEPTIEMBRE || this == OCTUBRE || this == NOVIEMBRE;
+        }
     
     // El resto de métodos (verano, otoño, invierno) seguirían una lógica similar
 }
