@@ -1,4 +1,4 @@
-# Tema 3. Excepciones
+# TEMA 3. EXCEPCIONES
 ## 1. Control de errores en C
 ### En el lenguaje C, al carecer de un mecanismo de excepciones, el control de errores debe realizarse mediante el flujo normal del programa. La función raiz no puede detener la ejecución por sí sola, por lo que debe comunicarse con el llamador a través de valores de retorno o parámetros externos.
 
