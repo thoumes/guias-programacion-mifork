@@ -4,8 +4,32 @@
 
 La primera opción consiste en utilizar un valor de retorno especial que indique un estado de error. Dado que una raíz cuadrada real nunca es negativa, se puede devolver un valor centinela como -1.0 o la constante NAN (Not a Number) de la librería math.h. El programa que llama a la función tiene la responsabilidad de verificar si el resultado es ese valor especial antes de continuar con el cálculo.
 
+    double raiz(double n) {
+      if (n < 0) return -1.0; // Valor centinela
+      return sqrt(n);
+      }
+
+    int main() {
+        double r = raiz(-5.0);
+        if (r == -1.0) printf("Error: Número negativo\n");
+        return 0;
+    }
+
 La segunda opción es utilizar un parámetro por referencia para devolver el resultado y reservar el valor de retorno de la función para un código de estado (0 para éxito, 1 para error). Este diseño es muy común en las bibliotecas de sistemas operativos, ya que separa claramente el dato obtenido de la señalización del éxito o fracaso de la operación.
 
+    int raiz_segura(double n, double *resultado) {
+        if (n < 0) return 1; // Código de error
+        *resultado = sqrt(n);
+        return 0; // Éxito
+    }
+
+    int main() {
+        double res;
+        if (raiz_segura(-5.0, &res) != 0) {
+            printf("Error detectado mediante código de retorno\n");
+        }
+        return 0;
+    }
 ## 2. ¿Qué es una "excepción"?
 ### Una excepción es un evento que ocurre durante la ejecución de un programa y que interrumpe el flujo normal de las instrucciones. Se trata de una señal de que algo inesperado ha sucedido (como una división por cero, un archivo inexistente o un índice fuera de rango) y que el código actual no sabe o no debe resolver en ese punto exacto.
 
@@ -14,6 +38,24 @@ El objetivo del programador al implementar funciones es separar la lógica de ne
 ## 3. Ejemplo de raíz en Java
 ### En Java, el control se realiza mediante objetos y bloques estructurales. A continuación, se muestra la clase Calculadora donde el método lanza una excepción de tipo IllegalArgumentException si el parámetro es inválido, y el método main gestiona dicha situación.
 
+    public class Calculadora {
+        public double raiz(double n) {
+            if (n < 0) {
+                throw new IllegalArgumentException("El número no puede ser negativo");
+            }
+            return Math.sqrt(n);
+        }
+
+    public static void main(String[] args) {
+        Calculadora calc = new Calculadora();
+        try {
+            double resultado = calc.raiz(-9.0);
+            System.out.println("Resultado: " + resultado);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error capturado: " + e.getMessage());
+        }
+      }
+    }
 ## 4. Conceptos de lanzamiento, control y propagación
 ### Lanzar (throw) es el acto de crear un objeto de excepción y entregarlo al sistema de ejecución de Java para indicar un error. Controlar o capturar (catch) consiste en interceptar esa excepción mediante un bloque específico de código diseñado para manejarla y permitir que el programa continúe su ejecución.
 
@@ -46,8 +88,23 @@ Sin embargo, en cada ejecución del bloque try, solo se ejecuta un bloque catch 
 
 Ejemplo con catch:
 
+    try {
+      abrirFichero();
+      leerDatos();
+    } catch (IOException e) {
+        System.out.println("Error de lectura");
+    } finally {
+        cerrarFichero(); // Se ejecuta pase lo que pase
+    }
+
 Ejemplo sin catch (la excepción se propaga, pero el recurso se cierra antes):
 
+    try {
+        abrirFichero();
+        procesarDatosCríticos();
+    } finally {
+        cerrarFichero(); // Se garantiza el cierre antes de que el error suba al llamador
+    }
 ## 10. Detalles del bloque finally
 ### El bloque finally sí puede ir sin catch, siempre que acompañe a un bloque try. Su propósito en este caso es asegurar la limpieza de recursos permitiendo que la excepción siga su curso hacia el método llamador. Es una estructura de "limpieza obligatoria" más que de "gestión de error".
 
@@ -59,25 +116,25 @@ Se ejecuta siempre, incluso si hay una instrucción return dentro del bloque try
 Ejemplos de controladas: FileNotFoundException, SQLException.
 Ejemplos de no controladas: NullPointerException, ArrayIndexOutOfBoundsException.
 
-Situaciones para excepciones controladas (errores recuperables o externos):
+*Situaciones para excepciones controladas (errores recuperables o externos):*
 
-Fallo en la conexión de una red externa.
+1. Fallo en la conexión de una red externa.
 
-Un archivo que el usuario debe proporcionar no existe.
+2. Un archivo que el usuario debe proporcionar no existe.
 
-Formato de datos incorrecto en una importación.
+3. Formato de datos incorrecto en una importación.
 
-Tiempo de espera agotado en una base de datos.
+4. Tiempo de espera agotado en una base de datos.
 
-Situaciones para excepciones no controladas (errores de lógica o programación):
+*Situaciones para excepciones no controladas (errores de lógica o programación):*
 
-Acceder a un objeto que es null.
+1. Acceder a un objeto que es null.
 
-División por cero.
+2. División por cero.
 
-Pasar un argumento inválido a un método (error del programador).
+3. Pasar un argumento inválido a un método (error del programador).
 
-Índice fuera de los límites de un array.
+4. Índice fuera de los límites de un array.
 
 ## 12. El uso de throws
 ### La palabra clave throws se utiliza en la firma de un método para indicar que dicho método puede lanzar una o varias excepciones que no ha capturado. Es una forma de avisar al llamador de los peligros potenciales de usar esa función, trasladando la responsabilidad de la gestión del error un nivel más arriba en la pila.
@@ -87,6 +144,18 @@ Es la alternativa a capturar la excepción porque, a veces, un método de bajo n
 ## 13. Ejemplo de firma con throws y finally
 ### En este diseño, el método procesarArchivo no captura la posible excepción de archivo no encontrado, delegándola, pero asegura que el flujo de cierre se intente.
 
+    public void procesarArchivo(String ruta) throws FileNotFoundException {
+        Scanner sc = null;
+        try {
+            sc = new Scanner(new File(ruta));
+            // Lógica de procesamiento
+        } finally {
+            if (sc != null) {
+                sc.close();
+                System.out.println("Recurso liberado.");
+            }
+        }
+    }
 ## 14. throws con RuntimeException
 ### Es técnicamente posible poner excepciones no controladas como RuntimeException en la cláusula throws, pero es innecesario y poco habitual. El compilador no lo requiere y no aporta información obligatoria al llamador.
 
@@ -105,4 +174,9 @@ También se puede lanzar una excepción diferente. Esto se hace para realizar un
 ## 17. Excepción como "causa" (Encadenamiento)
 ### El encadenamiento de excepciones consiste en capturar una excepción y envolverla dentro de una nueva. La excepción original se guarda en el atributo cause de la nueva. Esto permite mantener el contexto de alto nivel sin perder el detalle técnico original que provocó el fallo.
 
-Cuando una excepción sale por pantalla, si tiene una causa, Java la muestra mediante el prefijo "Caused by:" seguido de la traza de la excepción original. Es perfectamente visible en la consola y es fundamental para que el programador pueda rastrear el error desde la capa superior hasta la línea exacta de la librería de bajo nivel donde ocurrió el problema real.
+    try {
+        abrirConexionBaseDatos();
+    } catch (SQLException e) {
+        // La original (e) se pasa como causa a la nueva
+        throw new MiExcepcionPersonalizada("Fallo en el sistema de ventas", e);
+    }
