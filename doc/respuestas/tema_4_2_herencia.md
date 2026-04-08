@@ -1,3 +1,5 @@
+# TEMA 4.2. HERENCIA
+
 ## 1. La herencia y la relación "Es-un"
 
 La **herencia** es un mecanismo fundamental de la orientación a objetos que permite definir una clase nueva a partir de una ya existente. Se establece una relación jerárquica donde la clase derivada (subclase) "es-una" instancia especializada de la clase base (superclase). Esta relación implica que cualquier operación o expectativa que se tenga sobre la superclase debe ser válida también para la subclase, permitiendo la reutilización de código y la creación de estructuras lógicas más complejas.
